@@ -1,0 +1,72 @@
+.Courses {
+    display: flex;
+    justify-content: center;
+  }
+
+  .lessons{
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      grid-gap: 20px;
+      position: relative;
+      width: 1300px;
+      left: 160px;
+  }
+
+  .Header {
+    
+    min-height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(6px + 2vmin);
+    color: rgb(0, 0, 0);
+  }
+
+  .lessonsList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgb(1, 19, 9);
+  font-size: 20px;
+  cursor: pointer;
+  }
+
+  .currentList{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgb(1, 19, 9);
+    font-size: 20px;
+    cursor: pointer;
+    color: blue;
+  }
+
+  .prevAndNext{
+    background-color:blue;
+    color: white;
+    margin-right:200px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  p {
+    font-size: 18px;
+  }
+
+  .coursesList {
+    list-style-type: square;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgb(1, 19, 9);
+    font-size: 20px;
+    cursor: pointer;
+    }
+
+  .coursesListBlocked {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgb(1, 19, 9);
+    font-size: 20px;
+    /* cursor: pointer; */
+    }
+    
