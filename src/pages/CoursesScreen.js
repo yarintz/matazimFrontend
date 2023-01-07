@@ -75,9 +75,6 @@ var imageRegex = '(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i)'
 function handleUpload(event) {
   setFile(event.target.files[0]);
   setNewImage(true)
-
-  // Add code here to upload file to server
-  // ...
 }
 //code from internet
 // var binaryData = [];
@@ -269,7 +266,6 @@ if(file&& (!(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i).test(file.name)))
     }
   console.log(" inside fun proceed");
   console.log(file);
-  // try
   const uploadData = new FormData()
   uploadData.append('answer', answer);
   uploadData.append('link', link);
@@ -277,8 +273,6 @@ if(file&& (!(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i).test(file.name)))
   if(currentLesson.id){
     console.log("look here!!! ", currentLesson.id)
     API.updateUserAnswer(token['mr-token'], uploadData, currentLesson.id)}
-  // if(currentLesson.id)
-  //   API.updateUserAnswer(token['mr-token'], answer, link, file, currentLesson.id)
   else
     API.updateUserAnswer(token['mr-token'], answer, link, file, params.get('firstLessonId'))
   {lessonsList.map(lesson => {
@@ -287,23 +281,8 @@ if(file&& (!(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i).test(file.name)))
   setLessonsNumber(lessonNumber+1)
   setButtonPopup(false)
 }
-//link is not correct
-// else{
-// alert("הלינק לא נכון")
-// }
-// }
-// console.log("lessonNumber+2")
-// API.getNextLesson(lessonNumber+1)
-//     .then( resp => setCurrentLesson(resp))
-//     .then(console.log(currentLesson))
-//     .catch( error => console.log(error)) 
-//     console.log("the current lesson is:")
-//     console.log(currentLesson.name)
-// setUrl(currentLesson.link)
-// setLessonsNumber(currentLesson.id)
-// 
+
 const openNotes= () =>  {
-  //{setPlaying(false)}
   console.log(" inside openNotes");
   setNotes('')
   console.log("lesson is:",currentLesson.id)

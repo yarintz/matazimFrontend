@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "matazim-project"
-  }
+    "default": "matazim-frontend",
+    "firebase deploy": "matazim-frontend"
+  },
+  "targets": {}
 }

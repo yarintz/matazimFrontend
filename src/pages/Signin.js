@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { API } from '../api-service';
 import { useCookies } from 'react-cookie';
 import validator from 'validator'
-
+import Userfront from "@userfront/core";
+import ForgetPassword from './ForgetPassword';
 function Signin(){
     
     const[username, setUsername ] = useState('');
@@ -16,6 +17,7 @@ function Signin(){
  
     //const emailRegex = /^(([^<>()[]\\.,;:\s@\"]+(\.[^<>()[]\\.,;:\s@\"]+)*)|(\".+\"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     useEffect( () =>{
+
         console.log(token)
          if(token['mr-token'] )  
             if(token['mr-token'] === 'undefined' )
@@ -32,10 +34,10 @@ function Signin(){
     //         .catch( error => console.log(error))
     //     setUserRegistered(false);
     //   }, [userRegistered])
-
-
-  
-
+    
+    const forgetPassword = () =>  {
+        window.location.href ='/ForgetPassword';     
+    }
     const loginClicked = () =>  {
         console.log(username, password)
         API.loginUser({username, password})
@@ -114,6 +116,7 @@ function Signin(){
                 <button onClick={loginClicked}>התחבר</button>:
                 
                 <button onClick={registerClicked}>הירשם</button>}
+                 <button onClick={forgetPassword}>שכחתי סיסמה</button>
                 {isLoginView ? 
                   <p onClick={() => setIsLoginView(false)}> אם אינך רשום לאתר - הירשם כאן</p>: 
                   <p onClick={() => setIsLoginView(true)}>  אם הינך רשום לאתר - התחבר כאן</p>

@@ -28,3 +28,27 @@ button {
   color: #2d2ad5;
   cursor: pointer;
 }
+
+
+.first{
+  width:70%;
+  height:300px;
+  position:absolute;
+  
+
+}
+.middle{
+  /* justify-content: center; */
+  text-align: center;
+  position: relative;
+  top: 375px;
+  }
+.second{
+/* justify-content: center; */
+text-align: center;
+width:40%;
+height:200px;
+position: relative;
+top: 340px;
+}
+

@@ -19,16 +19,28 @@ const TeachersScreen = () => {
   const [matatzesInClass, setsMatatzesInClass] = useState([]);
   const [coordinatorsInClass, setsCoordinatorsInClass] = useState([]);
   const [allClasses, setsAllClasses] = useState([]);
+  const [allSchools, setsAllSchools] = useState([]);
+  const [addClassPopup, setAddClassPopup] = useState(false);
+  const [addSchoolPopup, setAddSchoolPopup] = useState(false);
   const [addStudentPopup, setAddStudentPopup] = useState(false);
   const [removeStudentPopup, setRemoveStudentPopup] = useState(false);
+  const [classToAdd, setClassToAdd] = useState();
+  const [schoolToAdd, setSchoolToAdd] = useState();
+  const [schoolNameToAdd, setSchoolNameToAdd] = useState();
+  const [schoolContactToAdd, setSchoolContactToAdd] = useState();
+  const [contactPhoneToAdd, setContactPhoneToAdd] = useState();
+  const [schoolCommentsToAdd, setSchoolCommentsToAdd] = useState();
   const [userToSearch, setUserToSearch] = useState();
   const [userToRemove, setUserToRemove] = useState([]);
   const [userToAdd, setUserToAdd] = useState([]);
   const [addedSuccesfullyMessage, setAddedSuccesfullyMessage] = useState('');
+  const [classAddedSuccesfullyMessage, setclassAddedSuccesfullyMessage] = useState('');
+  const [schoolAddedSuccesfullyMessage, setSchoolAddedSuccesfullyMessage] = useState('');
   const search = window.location.search; // returns the URL query String
   const params = new URLSearchParams(search); 
   const IdClassFromURL = params.get('class');
-
+  // const schools=['Reali Hadar', 'Reali Ahuza'];
+  const schools=[];
   const options=[];
   const defaultOption = '';
   
@@ -46,6 +58,10 @@ const TeachersScreen = () => {
       })
     API.getAllClasses()
       .then(resp => setsAllClasses(resp))
+      .catch( error => console.log(error))
+
+    API.getAllSchools()      
+      .then(resp => setsAllSchools(resp))
       .catch( error => console.log(error))
     }, [])
 
@@ -84,9 +100,12 @@ const TeachersScreen = () => {
           break;
         }
     } 
-     
-     
     }
+
+    function handleChangeChooseSchool(event) {
+      console.log("event is: ",event.value);
+      setSchoolToAdd(event.value)
+    } 
 
     function setGivenClass() {
         console.log("im hereeeee")
@@ -102,7 +121,22 @@ const TeachersScreen = () => {
         }
     }    
     }
-
+  
+    const addClassButton= () =>  {
+      setAddClassPopup(true)
+      }
+    const addSchoolButton= () =>  {
+      setAddSchoolPopup(true)
+      }
+    // add new class 
+    const addClass= (classToAdd, schoolToAdd) =>  {
+      API.AddClass(classToAdd,schoolToAdd, token['mr-token'], user.userType.toString());
+      setclassAddedSuccesfullyMessage("הכיתה נוספה בהצלחה");
+      }
+      const addSchool= () =>  {
+        API.AddNewSchool(schoolNameToAdd, schoolContactToAdd, contactPhoneToAdd, schoolCommentsToAdd )
+        setSchoolAddedSuccesfullyMessage("בית הספר נוסף בהצלחה");
+        }
 
     const viewProfile = (user) =>{
       console.log("id must be 20: ", user.id)
@@ -197,9 +231,11 @@ const TeachersScreen = () => {
     <div className="App">
        {console.log("in return type of user is: ", user.userType)}
        { user.userType=="1"? window.location.href = '/Homepagescreen': " "}
-      
+
       {/* <FontAwesomeIcon icon={faTimesCircle} />   */}
       <h1>הדרכה</h1>
+      {user.userType == "4" || user.userType == "5"  ? <button onClick={addClassButton}>הוסף כיתה</button>: ""}
+      {user.userType == "4" || user.userType == "5"  ? <button onClick={addSchoolButton}>הוסף בית ספר</button>: ""}
       <button onClick={() => showReport()}>הצג דוח כיתה</button>
       {user.userType == "3" ? <button onClick={() => showTeacherReport()}>הצג דוח מורה</button>: ""}
       {user.userType == "4" ? <button onClick={() => showCoordinatorReport()}>הצג דוח רכז</button>: ""}
@@ -219,18 +255,22 @@ const TeachersScreen = () => {
       {user.userType==='5'? allClasses.map(Matatzclass => {
           {options.push({key:Matatzclass.id,value:Matatzclass.className})}       
       }):""}
-    
+     { allSchools.map(school => {
+          {schools.push(school.schoolName)}       
+      })}
     {/* the dropdown will hold the classes of the user and will display them by their names*/}
     <Dropdown className='dropdown' options={options} value={defaultOption} label={defaultOption.key} onChange={handleChange}  placeholder="בחר כיתה" />
+    
     <div className="profile">
       <div>
+  
       <h3>תלמידים:</h3>
       {/*add the usernames of all the students of the selected class */}
     {studentInClass.map(student => { 
       {console.log("inside map")}
                     return <p>
                         {/* <FontAwesomeIcon className='username' icon={faTimesCircle} data-tip={"הסר"} onClick={() => removeStudent(student.username)}/> */}
-                        <FontAwesomeIcon className='username' icon={faTimesCircle} data-tip={"הסר"} onClick={() => candidateToRemove(student)}/>
+                        {user.userType!="2" ?<FontAwesomeIcon className='username' icon={faTimesCircle} data-tip={"הסר"} onClick={() => candidateToRemove(student)}/>:""}
                          <ReactTooltip />
                          &nbsp;
                          {/* working example with tooltip */}
@@ -288,6 +328,37 @@ const TeachersScreen = () => {
               })}
               </div>
     </div>
+    
+    {/* popup for adding new school */}
+    <Popup trigger={addSchoolPopup} setTrigger={setAddSchoolPopup}>
+      <h4>הוסף בית ספר חדש</h4>
+      
+      <input type = "text" onChange={e => setSchoolNameToAdd(e.target.value) + setSchoolAddedSuccesfullyMessage('')}></input>
+      <label> :שם בית ספר </label> <br/>
+      <input type = "text" onChange={e => setSchoolContactToAdd(e.target.value) + setSchoolAddedSuccesfullyMessage('')}></input>
+      <label> :שם איש קשר </label> <br/>
+      <input type = "text" onChange={e => setContactPhoneToAdd(e.target.value) + setSchoolAddedSuccesfullyMessage('')}></input>
+      <label> :מספר טלפון של איש קשר </label> <br/>
+      <input type = "text" onChange={e => setSchoolCommentsToAdd(e.target.value) + setSchoolAddedSuccesfullyMessage('')}></input>
+      <label> :הערות </label> <br/>
+      {<button onClick={() =>addSchool()}>הוסף</button>}
+      <p>{schoolAddedSuccesfullyMessage}</p>
+    </Popup>
+
+    {/* popup for adding new class */}    
+    <Popup trigger={addClassPopup} setTrigger={setAddClassPopup}>
+      <h4>הוסף כיתה חדשה</h4>
+      
+      <input type = "text" onChange={e => setClassToAdd(e.target.value) + setclassAddedSuccesfullyMessage('')}></input>
+      <label> :שם כיתה </label> <br/>
+      <input type = "text" onChange={e => setSchoolToAdd(e.target.value)}></input>
+      <label> :בית ספר </label> <br/>
+      {/* the dropdown will hold the existing schools*/}
+      <Dropdown  options={schools} value={defaultOption} label={defaultOption.key} onChange={handleChangeChooseSchool}  placeholder="בחר בית ספר" />
+      {<button onClick={() =>addClass(classToAdd, schoolToAdd)}>הוסף</button>}
+      <p>{classAddedSuccesfullyMessage}</p>
+    </Popup>
+    {/* popup for adding new student to exsiting class  */}
     <Popup trigger={addStudentPopup} setTrigger={setAddStudentPopup}>
      <h4>חפש שם משתמש של תלמיד</h4>
      <input type = "text" onChange={e => setUserToSearch(e.target.value) + setAddedSuccesfullyMessage('')}></input>
@@ -298,16 +369,14 @@ const TeachersScreen = () => {
          <h5>{userToAdd!="null"?  userToAdd.username: " לא נמצא שם משתמש"}</h5>
          {<button  style={{display : userToAdd!="null"  ? "none": ""}} onClick={() => goToSignIn(userToSearch)}>רשום משתמש</button>}
          <p>{userToAdd.id && userToAdd.firstName + " "+ userToAdd.lastName}</p>
-         {/* <p>{userToAdd && userToAdd.lastName}</p> */}
          {<button  style={{display : userToAdd.id  ? "": "none"}} onClick={() => addUser(userToAdd.username)}>הוסף</button>}
          <p>{addedSuccesfullyMessage}</p>    
 
    </Popup> 
+   {/* popup for removing student from class  */}
    <Popup trigger={removeStudentPopup} setTrigger={setRemoveStudentPopup}>
    <h4> ?מהכיתה {userToRemove.username} האם אתה בטוח שברצונך להסיר את </h4> 
    
-        {/* <h4> ?{userToRemove[0].username} האם אתה בטוח שברצונך להסיר את </h4>  */}
-        {/* <button onClick={removeStudent(userToRemove)}>הסר</button> */}
         {<button  style={{display : userToRemove.id  ? "": "none"}} onClick={() => removeStudent(userToRemove.username)}>הסר</button>}
    </Popup>     
    
@@ -319,5 +388,5 @@ const TeachersScreen = () => {
   );
   
 };
-
+ 
 export default TeachersScreen;

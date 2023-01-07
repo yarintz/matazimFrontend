@@ -7,8 +7,14 @@ import { useHistory } from "react-router-dom";
 import Popup from '../components/Popup';
 import '../index.css';
 import UpdateUserDetails from '../components/UpdateUserDetails'
+// import Userfront from "@userfront/core";
+import Userfront from "@userfront/react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const axios = require('axios');
 
+const PasswordResetForm = Userfront.build({
+  toolId: "dkbmmo",
+});
 
 const ProfileScreen = () => {
     const history = useHistory();
@@ -29,7 +35,6 @@ const ProfileScreen = () => {
 
     //   test
     const [studentsInClass, setsStudentsInClass] = useState([]);
-
 
 
     useEffect(()=>{
@@ -75,7 +80,14 @@ const ProfileScreen = () => {
       setUpdateDetailsPopup(true)
       }
 
-      const updateNewDetails= () =>  {      
+      const updateNewDetails= () =>  {
+        // <div>
+        // <h2>Password Reset</h2>
+        // <PasswordResetForm />
+        // </div>  
+        
+
+        //  Userfront.sendResetLink("yarintz5@gmail.com");    
          API.updateUserDetails(token['mr-token'], newFirstname, newLastName, newAboutMe, newHobbies, newMyGoal)
          setUpdateDetailsPopup(false)
          sleep(100).then(()=>{
@@ -160,6 +172,8 @@ const ProfileScreen = () => {
         
         <button onClick={updateDetails}> עדכון פרטים </button>
 
+
+      {/* update the details */}
         <Popup trigger={updateDetailsPopup} setTrigger={setUpdateDetailsPopup}>
   <h4>עדכון פרטים</h4>
   {/* <input type = "text" onChange={e => setUserToSearch(e.target.value) + setAddedSuccesfullyMessage('')}></input> */}
@@ -181,6 +195,7 @@ const ProfileScreen = () => {
   onChange={e => setNewMyGoal(e.target.value)}></input>
  <h7> המטרה שלי</h7><br/>
     <button onClick={updateNewDetails}>עדכן פרטים</button>
+
     {/* {console.log("users are: ",userToAdd.id)}
     <h5>{userToAdd!="null"?  userToAdd.username: " לא נמצא שם משתמש"}</h5>
     {<button  style={{display : userToAdd!="null"  ? "none": ""}} onClick={() => goToSignIn(userToSearch)}>רשום משתמש</button>}
@@ -188,6 +203,7 @@ const ProfileScreen = () => {
     <p>{userToAdd && userToAdd.lastName}</p>
     {<button  style={{display : userToAdd.id  ? "": "none"}} onClick={() => addUser(userToAdd.username)}>הוסף</button>}
     <p>{addedSuccesfullyMessage}</p>     */}
+
 
 </Popup> 
 

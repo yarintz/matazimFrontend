@@ -11,7 +11,23 @@
       width: 1300px;
       left: 160px;
   }
-
+  /* .projects{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 20px;
+    position: relative;
+    width: 1300px;
+    left: 380px;
+} */
+.projects{
+  direction: rtl;
+  display: grid;
+  grid-template-columns: 10fr 3fr;
+  grid-gap: 2px;
+  position: relative;
+  width: 1000px;
+  left: 10px;
+}
   .Header {
     
     min-height: 5vh;
@@ -69,4 +85,13 @@
     font-size: 20px;
     /* cursor: pointer; */
     }
-    
+  .frontalLessonsList {
+    list-style-type: none;
+    margin: 1;
+    padding: 0;
+    border: 1px solid rgb(64, 141, 212);
+    font-size: 20px;
+    cursor: pointer;
+    margin-right:650px;
+    margin-left:650px;
+    }

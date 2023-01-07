@@ -18,6 +18,15 @@ import ClassReportNew from './pages/ClassReportNew';
 import TeacherReport from './pages/TeacherReport';
 import CoordinatorReport from './pages/CoordinatorReport';
 import AdminReport from './pages/AdminReport';
+import FrontalLesson from './pages/FrontalLesson';
+import ChangePassword from './pages/ChangePassword';
+import ForgetPassword from './pages/ForgetPassword';
+import FrontalLessonMenu from './pages/FrontalLessonMenu';
+import CoursesMenu from './pages/CoursesMenu';
+import MyClass from './pages/MyClass';
+import FrontalLessonAnswers from './pages/FrontalLessonAnswers';
+import ProjectDisplay from './pages/ProjectDisplay';
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
@@ -50,6 +59,15 @@ function App() {
         <Route path="/TeacherReport" component={TeacherReport}/>
         <Route path="/CoordinatorReport" component={CoordinatorReport}/>
         <Route path="/AdminReport" component={AdminReport}/>
+        <Route path="/FrontalLesson" component={FrontalLesson}/>
+        <Route path="/ChangePassword" component={ChangePassword}/>
+        <Route path="/ForgetPassword" component={ForgetPassword}/>
+        <Route path="/FrontalLessonMenu" component={FrontalLessonMenu}/>
+        <Route path="/CoursesMenu" component={CoursesMenu}/>
+        <Route path="/MyClass" component={MyClass}/>
+        <Route path="/FrontalLessonAnswers" component={FrontalLessonAnswers}/>
+        <Route path="/ProjectDisplay" component={ProjectDisplay}/>
+
       </Switch>
     </Router>
   );

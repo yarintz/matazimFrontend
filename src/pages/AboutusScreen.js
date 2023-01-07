@@ -3,9 +3,12 @@ import React from 'react';
 
 //const[token] = useCookies(['mr-token']);
 const AboutusScreen = () => {
+
   return (    
+    
       <h1>Welcome to our website!</h1>
   );
+  
 };
 
 export default AboutusScreen;
